@@ -1,0 +1,313 @@
+swagger: "2.0"
+info:
+  description: "This is the first draft of the API documentation for the backend of our RNA application"
+  version: "1.0.0"
+  title: "RNA Bioinformatics Platform to Accelerate Biomedical Research"
+  # contact:
+  #   email: "apiteam@swagger.io"
+  # license:
+  #   name: "Apache 2.0"
+  #   url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "vm_ip_address_here"
+basePath: "/v1"
+tags:
+- name: "BayesPairing"
+  description: "Identifying RNA 3D modules in sequence and alignments"
+  externalDocs:
+    description: "Find out more"
+    url: "http://bayespairing.cs.mcgill.ca/"
+- name: "VeRNAl"
+  description: "Fuzzy Recurrent Subgraph Mining"
+  externalDocs:
+    description: "Find out more"
+    url: "http://vernal.cs.mcgill.ca/"
+- name: "RNAmigos"
+  description: "RNA Small Molecule Ligand Prediction"
+  externalDocs:
+    description: "Find out more"
+    url: "http://rnamigos.cs.mcgill.ca/"
+# schemes:
+# - "https"
+# - "http"
+paths:
+  /bayespairing:
+    get:
+      tags:
+      - "BayesPairing"
+      summary: "file input"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "description"
+        required: true
+        schema:
+          $ref: "#/definitions/BayesPairingFileInput"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/BayesPairingOutput"
+      # security:
+      # - petstore_auth:
+      #   - "write:pets"
+      #   - "read:pets"
+  /bayespairing/sequence:
+    get:
+      tags:
+      - "BayesPairing"
+      summary: "sequence input"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "description"
+        required: true
+        schema:
+          $ref: "#/definitions/BayesPairingStringInput"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/BayesPairingOutput"
+      # security:
+      # - petstore_auth:
+      #   - "write:pets"
+      #   - "read:pets"
+  /vernal:
+    get:
+      tags:
+      - "VeRNAl"
+      summary: "summary here"
+      description: "description here"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "description"
+        required: true
+        schema:
+          $ref: "#/definitions/VernalInput"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/VernalOutput"
+  /rnamigos:
+    get:
+      tags:
+      - "RNAmigos"
+      summary: "summary here"
+      description: "description here."
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "description"
+        required: true
+        schema:
+          $ref: "#/definitions/RnamigosInput"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RnamigosOutput"
+# securityDefinitions:
+#   petstore_auth:
+#     type: "oauth2"
+#     authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+#     flow: "implicit"
+#     scopes:
+#       write:pets: "modify pets in your account"
+#       read:pets: "read your pets"
+#   api_key:
+#     type: "apiKey"
+#     name: "api_key"
+#     in: "header"
+definitions:
+  BayesPairingFileInput:
+    type: object
+    properties:
+      sequence:
+        type: "string"
+        format: "binary"
+        description: "Fasta or Stockholm file"
+      dataset:
+        type: "string"
+        format: "binary"
+        description: "file"
+      advanced_settings:
+        $ref: "#/definitions/BayesPairingFileSettings"
+  BayesPairingFileSettings:
+    type: object
+    properties:
+      ligand_library:
+        type: "string"
+        format: "binary"
+        description: "An optional ligand library (file) for use by RNAmigos"
+      secondary_structure:
+        type: "string"
+        description: "If provided in the FASTA file, it should be noted. This simply allows for more information to be provided about the sequence"
+      secondary_structure_in_file:
+        type: boolean
+      sample_size:
+        type: "integer"
+      score_threshold:
+        type: "integer"
+      window_length:
+        type: "integer"
+      step_size:
+        type: "integer"
+      pretrained:
+        type: "boolean"
+        description: "Indicates whether the provided model has already been trained"
+      vernal:
+        type: "boolean"
+        description: "will we run VeRNAl in the pipeline?"
+      rnamigos:
+        type: "boolean"
+        description: "will we run RNAmigos in the pipeline?"
+  BayesPairingStringInput:
+    type: object
+    properties:
+      sequence:
+        type: "string"
+      dataset:
+        type: "string"
+        format: "binary"
+        description: "file"
+      advanced_settings:
+        $ref: "#/definitions/BayesPairingStringSettings"
+  BayesPairingStringSettings:
+    type: object
+    properties:
+      ligand_library:
+        type: "string"
+        format: "binary"
+        description: "An optional ligand library (file) for use by RNAmigos"
+      secondary_structure:
+        type: "string"
+        description: "If provided in the FASTA file, it should be noted. This simply allows for more information to be provided about the sequence"
+      sample_size:
+        type: "integer"
+      score_threshold:
+        type: "integer"
+      window_length:
+        type: "integer"
+      step_size:
+        type: "integer"
+      pretrained:
+        type: "boolean"
+        description: "Indicates whether the provided model has already been trained"
+      vernal:
+        type: "boolean"
+        description: "will we run VeRNAl in the pipeline?"
+      rnamigos:
+        type: "boolean"
+        description: "will we run RNAmigos in the pipeline?"
+  BayesPairingOutput:
+    type: object
+    properties:
+      id:
+        type: string
+  VernalInput:
+    type: object
+    properties:
+      id:
+        type: string
+      advanced_settings:
+        $ref: "#/definitions/VernalSettings"
+  VernalSettings:
+    type: object
+    properties:
+      id:
+        type: string
+  VernalOutput:
+    type: object
+    properties:
+      id:
+        type: string
+  RnamigosInput:
+    type: object
+    properties:
+      RNA_binding_site_structure:
+        type: "string"
+        format: "binary"
+        description: "file"
+      type:
+        type: "string"
+        description: "file type, one of [...]" 
+      ligand_library:
+        type: "string"
+        format: "binary"
+        description: "file"
+      advanced_settings:
+        $ref: "#/definitions/RnamigosSettings"
+  RnamigosSettings:
+    type: "object"
+    properties:
+      parallel:
+        type: "boolean"
+        description: "description/explanation of the parameter"
+      annotated_data:
+        type: "string"
+      batch_size:
+        type: "integer"
+      workers:
+        type: "integer"
+      name:
+        type: "string"
+      num_epochs:
+        type: "integer"
+      fp_lam:
+        type: "number"
+      reconstruction_lam:
+        type: "number"
+      attributor_dims:
+        type: "integer"
+      embedding_dims:
+        type: "integer"
+      sim_function:
+        type: "string"
+      embed_only:
+        type: "integer"
+      warm_start:
+        type: "string"
+      pos_weight:
+        type: "integer"
+      pool:
+        type: "string"
+      nucs:
+        type: "boolean"
+      seed:
+        type: "integer"
+      kfold:
+        type: "integer"
+      early_stop:
+        type: "integer"
+      clustered:
+        type: "boolean"
+      num_clusts:
+        type: "integer"
+  RnamigosOutput:
+    type: object
+    properties:
+      id:
+        type: string
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
