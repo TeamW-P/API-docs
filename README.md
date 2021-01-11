@@ -1,3 +1,3 @@
-# Capstone Project
+# API documentation
 
-OpenAPI docs
+OpenAPI docs for the capstone project
