@@ -131,19 +131,48 @@ paths:
       tags:
       - "Pipeline"
       summary: "summary here"
-      description: "description here."
+      description: "Pipeline with BayesPairing file input."
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
       - in: "query"
-        name: bayespairing
+        name: vernal
         schema:
           type: "integer"
           enum: [0, 1]
           example: 1
-        description: "whether to call BayesPairing in the Pipeline."
+        description: "whether to call VeRNAl in the Pipeline."
+      - in: "query"
+        name: rnamigos
+        schema:
+          type: "integer"
+          enum: [0, 1]
+          example: 1
+        description: "whether to call RNAmigos in the Pipeline."
+      - in: "body"
+        name: "body"
+        description: "description"
+        required: true
+        schema:
+          $ref: "#/definitions/PipelineFileInput"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PipelineOutput"
+  /pipeline/sequence:
+    get:
+      tags:
+      - "Pipeline"
+      summary: "summary here"
+      description: "Pipeline with BayesPairing string input."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
       - in: "query"
         name: vernal
         schema:
@@ -163,7 +192,7 @@ paths:
         description: "description"
         required: true
         schema:
-          $ref: "#/definitions/PipelineInput"
+          $ref: "#/definitions/PipelineStringInput"
       responses:
         "200":
           description: "successful operation"
@@ -390,7 +419,16 @@ definitions:
     properties:
       id:
         type: string
-  PipelineInput:
+  PipelineFileInput:
+    type: object
+    properties:
+      bayespairing:
+        $ref: "#/definitions/BayesPairingFileInput"
+      vernal:
+        $ref: "#/definitions/VernalInput"
+      rnamigos:
+        $ref: "#/definitions/RnamigosInput"
+  PipelineStringInput:
     type: object
     properties:
       bayespairing:
