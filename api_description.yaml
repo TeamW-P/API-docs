@@ -130,33 +130,31 @@ paths:
     get:
       tags:
       - "Pipeline"
-      summary: "summary here"
+      summary: "file input"
       description: "Pipeline with BayesPairing file input."
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: "query"
-        name: vernal
-        schema:
-          type: "integer"
-          enum: [0, 1]
-          example: 1
-        description: "whether to call VeRNAl in the Pipeline."
-      - in: "query"
-        name: rnamigos
-        schema:
-          type: "integer"
-          enum: [0, 1]
-          example: 1
-        description: "whether to call RNAmigos in the Pipeline."
       - in: "body"
         name: "body"
-        description: "description"
         required: true
         schema:
-          $ref: "#/definitions/PipelineFileInput"
+          type: object
+          properties:
+            vernal:
+              type: "integer"
+              enum: [0, 1]
+              example: 0
+              description: "whether to call VeRNAl in the Pipeline."
+            rnamigos:
+              type: "integer"
+              enum: [0, 1]
+              example: 1
+              description: "whether to call RNAmigos in the Pipeline."
+            params:
+              $ref: "#/definitions/PipelineFileInput"
       responses:
         "200":
           description: "successful operation"
@@ -166,33 +164,31 @@ paths:
     get:
       tags:
       - "Pipeline"
-      summary: "summary here"
+      summary: "string input"
       description: "Pipeline with BayesPairing string input."
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: "query"
-        name: vernal
-        schema:
-          type: "integer"
-          enum: [0, 1]
-          example: 0
-        description: "whether to call VeRNAl in the Pipeline."
-      - in: "query"
-        name: rnamigos
-        schema:
-          type: "integer"
-          enum: [0, 1]
-          example: 1
-        description: "whether to call RNAmigos in the Pipeline."
       - in: "body"
         name: "body"
-        description: "description"
         required: true
         schema:
-          $ref: "#/definitions/PipelineStringInput"
+          type: object
+          properties:
+            vernal:
+              type: "integer"
+              enum: [0, 1]
+              example: 0
+              description: "whether to call VeRNAl in the Pipeline."
+            rnamigos:
+              type: "integer"
+              enum: [0, 1]
+              example: 1
+              description: "whether to call RNAmigos in the Pipeline."
+            params:
+              $ref: "#/definitions/PipelineStringInput"
       responses:
         "200":
           description: "successful operation"
