@@ -153,6 +153,10 @@ paths:
               enum: [0, 1]
               example: 1
               description: "whether to call RNAmigos in the Pipeline."
+            threshold:
+              type: "integer"
+              default: 20
+              description: "This describes the number of motifs returned by BayesPairing that are processed by VeRNAl and RNAmigos respectively. It is recommended to keep this at the default, as high values may incur significant overhead."
             params:
               $ref: "#/definitions/PipelineFileInput"
       responses:
@@ -213,40 +217,54 @@ definitions:
       sequence:
         type: "string"
         format: "binary"
-        description: "Fasta or Stockholm file"
+        description: "FASTA file for a single or multiple sequences, or a Stockholm file for alignments."
       dataset:
         type: "string"
         format: "binary"
-        description: "file"
+        description: "Specifies a BayesPairing dataset. This feature will not be available at launch and the default will always be used."
       advanced_settings:
         $ref: "#/definitions/BayesPairingFileSettings"
   BayesPairingFileSettings:
     type: object
     properties:
-      ligand_library:
-        type: "string"
-        format: "binary"
-        description: "An optional ligand library (file) for use by RNAmigos"
       secondary_structure:
         type: "string"
-        description: "If provided in the FASTA file, it should be noted. This simply allows for more information to be provided about the sequence"
+        description: "A single secondary structure provided as a string."
       secondary_structure_in_file:
         type: boolean
+        description: "True if the secondary structure is included in the FASTA file."
         default: false
       sample_size:
         type: "integer"
+        description: "Size of the structure sample."
         default: 20000
       score_threshold:
         type: "number"
+        description: "Score threshold for a module to be called. [0 to 35]."
         default: -2.3
       window_length:
         type: "integer"
+        description: "Window Length [50 to 300]."
         default: 200
       lambda:
         type: "number"
+        description: "Weight of the secondary structure weight (lambda)."
         default: 0.35
+      theta:
+        type: number
+        description: "Constant to multiply the sequence score by."
+        default: 1
+      delta:
+        type: number
+        description: "If you do not want to sample the whole secondary structure landscape, the maximum delta energy."
+        default: -1
+      constraints:
+        type: number
+        description: "RNAfold constraints on input sequence."      
+        default: -1
       step_size:
         type: "integer"
+        description: "Step size between windows [10 to 200]."
         default: 100
       pretrained:
         type: "boolean"
@@ -265,36 +283,50 @@ definitions:
     properties:
       sequence:
         type: "string"
+        description: "A single string sequence."
       dataset:
         type: "string"
         format: "binary"
-        description: "file"
+        description: "Specifies a BayesPairing dataset. This feature will not be available at launch and the default will always be used."
       advanced_settings:
         $ref: "#/definitions/BayesPairingStringSettings"
   BayesPairingStringSettings:
     type: object
     properties:
-      ligand_library:
-        type: "string"
-        format: "binary"
-        description: "An optional ligand library (file) for use by RNAmigos"
       secondary_structure:
         type: "string"
-        description: "If provided in the FASTA file, it should be noted. This simply allows for more information to be provided about the sequence"
+        description: "A single secondary structure provided as a string."
       sample_size:
         type: "integer"
+        description: "Size of the structure sample."
         default: 20000
       score_threshold:
         type: "number"
+        description: "Score threshold for a module to be called. [0 to 35]."
         default: -2.3
       window_length:
         type: "integer"
+        description: "Window Length [50 to 300]."
         default: 200
       lambda:
         type: "number"
+        description: "Weight of the secondary structure weight (lambda)."
         default: 0.35
+      theta:
+        type: number
+        description: "Constant to multiply the sequence score by."
+        default: 1
+      delta:
+        type: number
+        description: "If you do not want to sample the whole secondary structure landscape, the maximum delta energy."
+        default: -1
+      constraints:
+        type: number
+        description: "RNAfold constraints on input sequence."      
+        default: -1
       step_size:
         type: "integer"
+        description: "Step size between windows [10 to 200]."
         default: 100
       pretrained:
         type: "boolean"
@@ -311,8 +343,18 @@ definitions:
   BayesPairingOutput:
     type: object
     properties:
-      id:
+      motifs:
         type: string
+        format: "binary"
+        description: "A pickle file consisting of all motifs above the given threshold."
+      secondary_structure_svg:
+        type: string
+        format: "binary"
+        description: "An SVG of the generated secondary structure."      
+      secondary_strcture_data:
+        type: "string"
+        format: "binary"
+        description: "A CSV that contains information on the motifs in the secondary structure SVG."
   VernalInput:
     type: object
     properties:
@@ -438,10 +480,14 @@ definitions:
     properties:
       bayespairing:
         $ref: "#/definitions/BayesPairingOutput"
-      vernal:
-        $ref: "#/definitions/VernalOutput"
-      rnamigos:
-        $ref: "#/definitions/RnamigosOutput"
+      similar_motifs:
+        type: string
+        format: "binary"
+        description: "A pickle file containing a list of similar motifs to those returned by BayesPairing. This is the output of VeRNAl."
+      ligands:
+        type: string
+        format: "binary"
+        description: "A pickle file containing a list of ligands that tend to interact with the motifs returned by BayesPairing. This is the output of RNAmigos."
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
