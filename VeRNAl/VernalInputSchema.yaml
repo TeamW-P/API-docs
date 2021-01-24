@@ -1,0 +1,6 @@
+type: object
+properties:
+  id:
+    type: string
+  advanced_settings:
+    $ref: "./VernalSettingsSchema.yaml"
