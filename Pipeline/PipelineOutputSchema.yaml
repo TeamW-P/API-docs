@@ -1,12 +1,13 @@
-type: object
-properties:
-  bayespairing:
-    $ref: "../BayesPairing/BayesPairingOutputSchema.yaml"
-  similar_motifs:
-    type: string
-    format: "binary"
-    description: "A pickle file containing a list of similar motifs to those returned by BayesPairing. This is the output of VeRNAl."
-  ligands:
-    type: string
-    format: "binary"
-    description: "A pickle file containing a list of ligands that tend to interact with the motifs returned by BayesPairing. This is the output of RNAmigos."
+PipelineOutput:
+  type: object
+  properties:
+    bayespairing:
+      $ref: "../BayesPairing/BayesPairingOutputSchema.yaml"
+    similar_motifs:
+      type: string
+      format: "binary"
+      description: "A pickle file containing a list of similar motifs to those returned by BayesPairing. This is the output of VeRNAl."
+    ligands:
+      type: string
+      format: "binary"
+      description: "A pickle file containing a list of ligands that tend to interact with the motifs returned by BayesPairing. This is the output of RNAmigos."

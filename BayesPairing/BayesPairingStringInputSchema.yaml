@@ -1,11 +1,12 @@
-type: object
-properties:
-  sequence:
-    type: "string"
-    description: "A single string sequence."
-  dataset:
-    type: "string"
-    format: "binary"
-    description: "Specifies a BayesPairing dataset. This feature will not be available at launch and the default will always be used."
-  advanced_settings:
-    $ref: "./BayesPairingStringSettingsSchema.yaml"
+BayesPairingStringInput:  
+  type: object
+  properties:
+    sequence:
+      type: "string"
+      description: "A single string sequence."
+    dataset:
+      type: "string"
+      format: "binary"
+      description: "Specifies a BayesPairing dataset. This feature will not be available at launch and the default will always be used."
+    advanced_settings:
+      $ref: "./BayesPairingStringSettingsSchema.yaml#/BayesPairingStringSettings"

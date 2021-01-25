@@ -1,8 +1,9 @@
-type: object
-properties:
-  bayespairing:
-    $ref: "../BayesPairing/BayesPairingStringInputSchema.yaml"
-  vernal:
-    $ref: "../VeRNAl/VernalInputSchema.yaml"
-  rnamigos:
-    $ref: "../RNAmigos/RnamigosInputSchema.yaml"
+PipelineStringInput:
+  type: object
+  properties:
+    bayespairing:
+      $ref: "../BayesPairing/BayesPairingStringInputSchema.yaml#/BayesPairingStringInput"
+    vernal:
+      $ref: "../VeRNAl/VernalInputSchema.yaml#/VernalInput"
+    rnamigos:
+      $ref: "../RNAmigos/RnamigosInputSchema.yaml#/RnamigosInput"

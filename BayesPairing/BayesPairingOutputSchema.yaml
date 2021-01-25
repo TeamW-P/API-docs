@@ -1,14 +1,15 @@
-type: object
-properties:
-  motifs:
-    type: string
-    format: "binary"
-    description: "A pickle file consisting of all motifs above the given threshold."
-  secondary_structure_svg:
-    type: string
-    format: "binary"
-    description: "An SVG of the generated secondary structure."      
-  secondary_strcture_data:
-    type: "string"
-    format: "binary"
-    description: "A CSV that contains information on the motifs in the secondary structure SVG."
+BayesPairingOutput:  
+  type: object
+  properties:
+    motifs:
+      type: string
+      format: "binary"
+      description: "A pickle file consisting of all motifs above the given threshold."
+    secondary_structure_svg:
+      type: string
+      format: "binary"
+      description: "An SVG of the generated secondary structure."      
+    secondary_strcture_data:
+      type: "string"
+      format: "binary"
+      description: "A CSV that contains information on the motifs in the secondary structure SVG."
