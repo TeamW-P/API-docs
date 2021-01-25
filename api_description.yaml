@@ -216,25 +216,25 @@ paths:
 #     in: "header"
 definitions:
   BayesPairingFileInput:
-    $ref: "BayesPairing/BayesPairingFileInputSchema.yaml"
+    $ref: "./BayesPairing/BayesPairingFileInputSchema.yaml"
   BayesPairingStringInput:
-    $ref: "BayesPairing/BayesPairingStringInputSchema.yaml"
+    $ref: "./BayesPairing/BayesPairingStringInputSchema.yaml"
   BayesPairingOutput:
-    $ref: "BayesPairing/BayesPairingOutput.yaml"
+    $ref: "./BayesPairing/BayesPairingOutput.yaml"
   VernalInput:
-    $ref: "VeRNAl/VernalInputSchema.yaml"
+    $ref: "./VeRNAl/VernalInputSchema.yaml"
   VernalOutput:
-    $ref: "VeRNAl/VernalOutputSchema.yaml"
+    $ref: "./VeRNAl/VernalOutputSchema.yaml"
   RnamigosInput:
-    $ref: "RNAmigos/RnamigosInputSchema.yaml"
+    $ref: "./RNAmigos/RnamigosInputSchema.yaml"
   RnamigosOutput:    
-    $ref: "RNAmigos/RnamigosOutputSchema.yaml"
+    $ref: "./RNAmigos/RnamigosOutputSchema.yaml"
   PipelineFileInput:
-    $ref: "Pipeline/PipelineFileInputSchema.yaml"
+    $ref: "./Pipeline/PipelineFileInputSchema.yaml"
   PipelineStringInput:
-    $ref: "Pipeline/PipelineStringInputSchema.yaml"
+    $ref: "./Pipeline/PipelineStringInputSchema.yaml"
   PipelineOutput:
-    $ref: "Pipeline/PipelineOutputSchema.yaml"
+    $ref: "./Pipeline/PipelineOutputSchema.yaml"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
