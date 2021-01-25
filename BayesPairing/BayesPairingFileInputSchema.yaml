@@ -1,0 +1,13 @@
+BayesPairingFileInput:
+  type: object
+  properties:
+    sequence:
+      type: "string"
+      format: "binary"
+      description: "FASTA file for a single or multiple sequences, or a Stockholm file for alignments."
+    dataset:
+      type: "string"
+      format: "binary"
+      description: "Specifies a BayesPairing dataset. This feature will not be available at launch and the default will always be used."
+    advanced_settings:
+      $ref: "./BayesPairingFileSettingsSchema.yaml#/BayesPairingFileSettings"

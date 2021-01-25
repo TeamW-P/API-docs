@@ -26,10 +26,13 @@ tags:
   externalDocs:
     description: "Find out more"
     url: "http://rnamigos.cs.mcgill.ca/"
+- name: "Pipeline"
+  description: "Pipeline endpoints that combine the above three tools"
 # schemes:
 # - "https"
 # - "http"
 paths:
+  # BAYESPAIRING
   /bayespairing:
     get:
       tags:
@@ -45,12 +48,12 @@ paths:
         description: "description"
         required: true
         schema:
-          $ref: "#/definitions/BayesPairingFileInput"
+          $ref: "./BayesPairing/BayesPairingFileInputSchema.yaml#/BayesPairingFileInput"
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/BayesPairingOutput"
+            $ref: "./BayesPairing/BayesPairingOutputSchema.yaml#/BayesPairingOutput"
       # security:
       # - petstore_auth:
       #   - "write:pets"
@@ -59,7 +62,7 @@ paths:
     get:
       tags:
       - "BayesPairing"
-      summary: "sequence input"
+      summary: "single sequence string input"
       consumes:
       - "application/json"
       produces:
@@ -70,16 +73,17 @@ paths:
         description: "description"
         required: true
         schema:
-          $ref: "#/definitions/BayesPairingStringInput"
+          $ref: "./BayesPairing/BayesPairingStringInputSchema.yaml#/BayesPairingStringInput"
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/BayesPairingOutput"
+            $ref: "./BayesPairing/BayesPairingOutputSchema.yaml#/BayesPairingOutput"
       # security:
       # - petstore_auth:
       #   - "write:pets"
       #   - "read:pets"
+  # VERNAL
   /vernal:
     get:
       tags:
@@ -96,12 +100,13 @@ paths:
         description: "description"
         required: true
         schema:
-          $ref: "#/definitions/VernalInput"
+          $ref: "./VeRNAl/VernalInputSchema.yaml#/VernalInput"
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/VernalOutput"
+            $ref: "./VeRNAl/VernalOutputSchema.yaml#/VernalOutput"
+  # RNAMIGOS
   /rnamigos:
     get:
       tags:
@@ -110,9 +115,7 @@ paths:
       description: "description here."
       consumes:
       - "application/json"
-      - "application/xml"
       produces:
-      - "application/xml"
       - "application/json"
       parameters:
       - in: "body"
@@ -120,12 +123,85 @@ paths:
         description: "description"
         required: true
         schema:
-          $ref: "#/definitions/RnamigosInput"
+          $ref: "./RNAmigos/RnamigosInputSchema.yaml#/RnamigosInput"
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/RnamigosOutput"
+            $ref: "./RNAmigos/RnamigosOutputSchema.yaml#/RnamigosOutput"
+  # PIPELINE
+  /pipeline:
+    get:
+      tags:
+      - "Pipeline"
+      summary: "file input"
+      description: "Pipeline with BayesPairing file input."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          type: object
+          properties:
+            vernal:
+              type: "integer"
+              enum: [0, 1]
+              example: 0
+              description: "whether to call VeRNAl in the Pipeline."
+            rnamigos:
+              type: "integer"
+              enum: [0, 1]
+              example: 1
+              description: "whether to call RNAmigos in the Pipeline."
+            threshold:
+              type: "integer"
+              default: 20
+              description: "This describes the number of motifs returned by BayesPairing that are processed by VeRNAl and RNAmigos respectively. It is recommended to keep this at the default, as high values may incur significant overhead."
+            params:
+              $ref: "./Pipeline/PipelineFileInputSchema.yaml#/PipelineFileInput"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./Pipeline/PipelineOutputSchema.yaml#/PipelineOutput"
+  /pipeline/sequence:
+    get:
+      tags:
+      - "Pipeline"
+      summary: "string input"
+      description: "Pipeline with BayesPairing string input."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          type: object
+          properties:
+            vernal:
+              type: "integer"
+              enum: [0, 1]
+              example: 0
+              description: "whether to call VeRNAl in the Pipeline."
+            rnamigos:
+              type: "integer"
+              enum: [0, 1]
+              example: 1
+              description: "whether to call RNAmigos in the Pipeline."
+            params:
+              $ref: "./Pipeline/PipelineStringInputSchema.yaml#/PipelineStringInput"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "./Pipeline/PipelineOutputSchema.yaml#/PipelineOutput"
 # securityDefinitions:
 #   petstore_auth:
 #     type: "oauth2"
@@ -140,213 +216,33 @@ paths:
 #     in: "header"
 definitions:
   BayesPairingFileInput:
-    type: object
-    properties:
-      sequence:
-        type: "string"
-        format: "binary"
-        description: "Fasta or Stockholm file"
-      dataset:
-        type: "string"
-        format: "binary"
-        description: "file"
-      advanced_settings:
-        $ref: "#/definitions/BayesPairingFileSettings"
+    $ref: "./BayesPairing/BayesPairingFileInputSchema.yaml#/BayesPairingFileInput"
   BayesPairingFileSettings:
-    type: object
-    properties:
-      ligand_library:
-        type: "string"
-        format: "binary"
-        description: "An optional ligand library (file) for use by RNAmigos"
-      secondary_structure:
-        type: "string"
-        description: "If provided in the FASTA file, it should be noted. This simply allows for more information to be provided about the sequence"
-      secondary_structure_in_file:
-        type: boolean
-        default: false
-      sample_size:
-        type: "integer"
-        default: 20000
-      score_threshold:
-        type: "number"
-        default: -2.3
-      window_length:
-        type: "integer"
-        default: 200
-      lambda:
-        type: "number"
-        default: 0.35
-      step_size:
-        type: "integer"
-        default: 100
-      pretrained:
-        type: "boolean"
-        description: "Indicates whether the provided model has already been trained"
-        default: false
-      vernal:
-        type: "boolean"
-        description: "will we run VeRNAl in the pipeline?"
-        default: true
-      rnamigos:
-        type: "boolean"
-        description: "will we run RNAmigos in the pipeline?"
-        default: true
+    $ref: "./BayesPairing/BayesPairingFileSettingsSchema.yaml#/BayesPairingFileSettings"
   BayesPairingStringInput:
-    type: object
-    properties:
-      sequence:
-        type: "string"
-      dataset:
-        type: "string"
-        format: "binary"
-        description: "file"
-      advanced_settings:
-        $ref: "#/definitions/BayesPairingStringSettings"
+    $ref: "./BayesPairing/BayesPairingStringInputSchema.yaml#/BayesPairingStringInput"
   BayesPairingStringSettings:
-    type: object
-    properties:
-      ligand_library:
-        type: "string"
-        format: "binary"
-        description: "An optional ligand library (file) for use by RNAmigos"
-      secondary_structure:
-        type: "string"
-        description: "If provided in the FASTA file, it should be noted. This simply allows for more information to be provided about the sequence"
-      sample_size:
-        type: "integer"
-        default: 20000
-      score_threshold:
-        type: "number"
-        default: -2.3
-      window_length:
-        type: "integer"
-        default: 200
-      lambda:
-        type: "number"
-        default: 0.35
-      step_size:
-        type: "integer"
-        default: 100
-      pretrained:
-        type: "boolean"
-        description: "Indicates whether the provided model has already been trained"
-        default: false
-      vernal:
-        type: "boolean"
-        description: "will we run VeRNAl in the pipeline?"
-        default: true
-      rnamigos:
-        type: "boolean"
-        description: "will we run RNAmigos in the pipeline?"
-        default: true
+    $ref: "./BayesPairing/BayesPairingStringSettingsSchema.yaml#/BayesPairingStringSettings"
   BayesPairingOutput:
-    type: object
-    properties:
-      id:
-        type: string
+    $ref: "./BayesPairing/BayesPairingOutputSchema.yaml#/BayesPairingOutput"
   VernalInput:
-    type: object
-    properties:
-      id:
-        type: string
-      advanced_settings:
-        $ref: "#/definitions/VernalSettings"
+    $ref: "./VeRNAl/VernalInputSchema.yaml#/VernalInput"
   VernalSettings:
-    type: object
-    properties:
-      id:
-        type: string
+    $ref: "./VeRNAl/VernalSettingsSchema.yaml#/VernalSettings"
   VernalOutput:
-    type: object
-    properties:
-      id:
-        type: string
+    $ref: "./VeRNAl/VernalOutputSchema.yaml#/VernalOutput"
   RnamigosInput:
-    type: object
-    properties:
-      RNA_binding_site_structure:
-        type: "string"
-        format: "binary"
-        description: "file"
-      type:
-        type: "string"
-        description: "file type, one of [...]" 
-      ligand_library:
-        type: "string"
-        format: "binary"
-        description: "file"
-      advanced_settings:
-        $ref: "#/definitions/RnamigosSettings"
+    $ref: "./RNAmigos/RnamigosInputSchema.yaml#/RnamigosInput"
   RnamigosSettings:
-    type: "object"
-    properties:
-      parallel:
-        type: "boolean"
-        description: "description/explanation of the parameter"
-      annotated_data:
-        type: "string"
-      batch_size:
-        type: "integer"
-        default: 8
-      workers:
-        type: "integer"
-        default: 20
-      name:
-        type: "string"
-        default: "default_name"
-      num_epochs:
-        type: "integer"
-        default: 3
-      fp_lam:
-        type: "number"
-        default: 1.0
-      reconstruction_lam:
-        type: "number"
-        default: 1.0
-      attributor_dims:
-        type: "integer"
-        default: [16,166]
-      embedding_dims:
-        type: "integer"
-        default: [16,16,16]
-      sim_function:
-        type: "string"
-        default: "R_1"
-      embed_only:
-        type: "integer"
-        default: -1
-      warm_start:
-        type: "string"
-      pos_weight:
-        type: "integer"
-        default: 0
-      pool:
-        type: "string"
-        default: "sum"
-      nucs:
-        type: "boolean"
-        default: True
-      seed:
-        type: "integer"
-        default: 0
-      kfold:
-        type: "integer"
-        default: 0
-      early_stop:
-        type: "integer"
-        default: 10
-      clustered:
-        type: "boolean"
-        default: False
-      num_clusts:
-        type: "integer"
-        default: 8
+    $ref: "./RNAmigos/RnamigosSettingsSchema.yaml#/RnamigosSettings"
   RnamigosOutput:
-    type: object
-    properties:
-      id:
-        type: string
+    $ref: "./RNAmigos/RnamigosOutputSchema.yaml#/RnamigosOutput"
+  PipelineFileInput:
+    $ref: "./Pipeline/PipelineFileInputSchema.yaml#/PipelineFileInput"
+  PipelineStringInput:
+    $ref: "./Pipeline/PipelineStringInputSchema.yaml#/PipelineStringInput"
+  PipelineOutput:
+    $ref: "./Pipeline/PipelineOutputSchema.yaml#/PipelineOutput"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

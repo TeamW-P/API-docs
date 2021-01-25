@@ -1,0 +1,9 @@
+PipelineFileInput:
+  type: object
+  properties:
+    bayespairing:
+      $ref: "../BayesPairing/BayesPairingFileInputSchema.yaml#/BayesPairingFileInput"
+    vernal:
+      $ref: "../VeRNAl/VernalInputSchema.yaml#/VernalInput"
+    rnamigos:
+      $ref: "../RNAmigos/RnamigosInputSchema.yaml#/RnamigosInput"

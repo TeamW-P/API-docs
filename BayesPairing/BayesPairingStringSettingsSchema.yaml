@@ -1,0 +1,50 @@
+BayesPairingStringSettings:
+  type: object
+  properties:
+    secondary_structure:
+      type: "string"
+      description: "A single secondary structure provided as a string."
+    sample_size:
+      type: "integer"
+      description: "Size of the structure sample."
+      default: 20000
+    score_threshold:
+      type: "number"
+      description: "Score threshold for a module to be called. [0 to 35]."
+      default: -2.3
+    window_length:
+      type: "integer"
+      description: "Window Length [50 to 300]."
+      default: 200
+    lambda:
+      type: "number"
+      description: "Weight of the secondary structure weight (lambda)."
+      default: 0.35
+    theta:
+      type: number
+      description: "Constant to multiply the sequence score by."
+      default: 1
+    delta:
+      type: number
+      description: "If you do not want to sample the whole secondary structure landscape, the maximum delta energy."
+      default: -1
+    constraints:
+      type: number
+      description: "RNAfold constraints on input sequence."      
+      default: -1
+    step_size:
+      type: "integer"
+      description: "Step size between windows [10 to 200]."
+      default: 100
+    pretrained:
+      type: "boolean"
+      description: "Indicates whether the provided model has already been trained"
+      default: false
+    vernal:
+      type: "boolean"
+      description: "will we run VeRNAl in the pipeline?"
+      default: true
+    rnamigos:
+      type: "boolean"
+      description: "will we run RNAmigos in the pipeline?"
+      default: true

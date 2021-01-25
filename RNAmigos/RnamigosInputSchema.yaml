@@ -1,0 +1,16 @@
+RnamigosInput:
+  type: object
+  properties:
+    rna_binding_site_structure:
+      type: "string"
+      format: "binary"
+      description: "file"
+    type:
+      type: "string"
+      description: "file type, one of [...]" 
+    ligand_library:
+      type: "string"
+      format: "binary"
+      description: "file"
+    advanced_settings:
+      $ref: "./RnamigosSettingsSchema.yaml#/RnamigosSettings"

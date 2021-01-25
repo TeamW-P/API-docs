@@ -1,0 +1,64 @@
+RnamigosSettings:
+  type: "object"
+  properties:
+    parallel:
+      type: "boolean"
+      description: "description/explanation of the parameter"
+    annotated_data:
+      type: "string"
+    batch_size:
+      type: "integer"
+      default: 8
+    workers:
+      type: "integer"
+      default: 20
+    name:
+      type: "string"
+      default: "default_name"
+    num_epochs:
+      type: "integer"
+      default: 3
+    fp_lam:
+      type: "number"
+      default: 1.0
+    reconstruction_lam:
+      type: "number"
+      default: 1.0
+    attributor_dims:
+      type: "integer"
+      default: [16,166]
+    embedding_dims:
+      type: "integer"
+      default: [16,16,16]
+    sim_function:
+      type: "string"
+      default: "R_1"
+    embed_only:
+      type: "integer"
+      default: -1
+    warm_start:
+      type: "string"
+    pos_weight:
+      type: "integer"
+      default: 0
+    pool:
+      type: "string"
+      default: "sum"
+    nucs:
+      type: "boolean"
+      default: True
+    seed:
+      type: "integer"
+      default: 0
+    kfold:
+      type: "integer"
+      default: 0
+    early_stop:
+      type: "integer"
+      default: 10
+    clustered:
+      type: "boolean"
+      default: False
+    num_clusts:
+      type: "integer"
+      default: 8

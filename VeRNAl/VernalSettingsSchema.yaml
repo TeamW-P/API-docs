@@ -1,0 +1,5 @@
+VernalSettings:
+  type: object
+  properties:
+    id:
+      type: string
