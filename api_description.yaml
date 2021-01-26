@@ -3,8 +3,10 @@ info:
   description: "This is the first draft of the API documentation for the backend of our RNA application"
   version: "1.0.0"
   title: "RNA Bioinformatics Platform to Accelerate Biomedical Research"
-  # contact:
-  #   email: "apiteam@swagger.io"
+  contact:
+    name: "Waldispühl Research group"
+    url: "http://csb.cs.mcgill.ca/"
+    email: "jerome.waldispuhl@mcgill.ca"
   # license:
   #   name: "Apache 2.0"
   #   url: "http://www.apache.org/licenses/LICENSE-2.0.html"
