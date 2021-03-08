@@ -1,3 +1,3 @@
-# API documentation
+# API documentation [no longer maintained]
 
-OpenAPI docs for the capstone project
+This repository is no longer maintained as documentation has shifted to Postman. 
